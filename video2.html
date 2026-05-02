@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MathCloud Cinematic Video</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  background:#000;
+  overflow:hidden;
+  color:#fff;
+}
+
+/* CONTAINER */
+.video{
+  width:100%;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* BACKGROUND */
+.bg{
+  position:absolute;
+  width:110%;
+  height:110%;
+  object-fit:cover;
+  filter:brightness(0.35) blur(2px);
+  transform:scale(1.1);
+  transition:transform 6s ease;
+}
+
+/* SCENE */
+.scene{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  opacity:0;
+  transform:scale(1.1);
+  transition:all 1.2s ease;
+}
+
+.scene.active{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* TEXT */
+h1{
+  font-size:3rem;
+  text-align:center;
+  letter-spacing:1px;
+}
+
+.gold{
+  color:#D4AF37;
+}
+
+.subtitle{
+  margin-top:12px;
+  opacity:.85;
+  font-size:1.2rem;
+}
+
+/* SERVICES */
+.services{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:20px;
+}
+
+.card{
+  padding:18px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.2);
+  backdrop-filter:blur(10px);
+  transform:translateY(30px);
+  opacity:0;
+  transition:all .8s ease;
+}
+
+.scene.active .card{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* SPLIT */
+.split{
+  display:flex;
+  gap:20px;
+}
+
+.box{
+  padding:20px;
+  border-radius:12px;
+  border:1px solid #D4AF37;
+  background:rgba(212,175,55,0.08);
+}
+
+/* CTA */
+.cta{
+  position:absolute;
+  bottom:30px;
+  text-align:center;
+  font-size:.9rem;
+  opacity:.85;
+}
+
+/* PLAY BUTTON */
+.play-btn{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  padding:16px 30px;
+  background:#D4AF37;
+  border:none;
+  border-radius:30px;
+  color:#000;
+  font-size:1.1rem;
+  cursor:pointer;
+  z-index:10;
+  box-shadow:0 10px 25px rgba(212,175,55,.4);
+}
+
+/* FADE OUT */
+.hidden{
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="video">
+
+  <img src="mathcloud2.png" class="bg" id="bg">
+
+  <button class="play-btn" id="playBtn">▶ Play Video</button>
+
+  <!-- SCENES -->
+
+  <div class="scene" id="s1">
+    <h1>MATHCLOUD</h1>
+    <p class="subtitle">We Build. You Grow.</p>
+  </div>
+
+  <div class="scene" id="s2">
+    <h1>SMART SOLUTIONS</h1>
+    <h1 class="gold">STRONGER FUTURE</h1>
+  </div>
+
+  <div class="scene" id="s3">
+    <h1>Modern. Reliable. Scalable</h1>
+    <p class="subtitle">Digital Solutions for Growth</p>
+  </div>
+
+  <div class="scene" id="s4">
+    <h1>Our Services</h1>
+    <div class="services">
+      <div class="card">Website Development</div>
+      <div class="card">Programming</div>
+      <div class="card">Mobile & Web Apps</div>
+      <div class="card">School Solutions</div>
+    </div>
+  </div>
+
+  <div class="scene" id="s5">
+    <div class="split">
+      <div class="box">
+        <h2>Schools</h2>
+        <p>E-learning, Portals, Results Systems</p>
+      </div>
+      <div class="box">
+        <h2>Workplaces</h2>
+        <p>Dashboards, HR Systems, Workflow Tools</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene" id="s6">
+    <h1>We don’t just write code</h1>
+    <h1 class="gold">We solve problems</h1>
+  </div>
+
+  <div class="scene" id="s7">
+    <h1>Let’s Build Something Amazing</h1>
+    <div class="cta">
+      <p>09129225442</p>
+      <p>marshall12340@gmail.com</p>
+      <p>www.mathcloud.com</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="music" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b8c3c.mp3"></audio>
+
+<audio id="voice" src=""></audio>
+
+<script>
+const scenes = [
+  {id:'s1', duration:4000},
+  {id:'s2', duration:4000},
+  {id:'s3', duration:4000},
+  {id:'s4', duration:6000},
+  {id:'s5', duration:5000},
+  {id:'s6', duration:4000},
+  {id:'s7', duration:4000}
+];
+
+let i = 0;
+
+function showScene(index){
+  document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+  document.getElementById(scenes[index].id).classList.add('active');
+
+  // background slow zoom
+  document.getElementById('bg').style.transform = `scale(${1.1 + index*0.02})`;
+}
+
+function playVideo(){
+  document.getElementById('playBtn').classList.add('hidden');
+
+  const music = document.getElementById('music');
+  music.volume = 0.4;
+  music.play();
+
+  function next(){
+    if(i >= scenes.length) return;
+    showScene(i);
+    setTimeout(()=>{
+      i++;
+      next();
+    }, scenes[i].duration);
+  }
+
+  next();
+}
+
+document.getElementById('playBtn').addEventListener('click', playVideo);
+</script>
+
+</body>
+</html>
