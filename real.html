@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MathCloud Cinematic Pro</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background:#000;overflow:hidden;color:#fff;}
+
+/* CONTAINER */
+.video{
+  width:100%;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* BACKGROUND (CINEMATIC PARALLAX) */
+.bg{
+  position:absolute;
+  width:120%;
+  height:120%;
+  object-fit:cover;
+  filter:brightness(0.35) blur(3px);
+  transform:scale(1.15);
+  transition:transform 8s cubic-bezier(.22,.61,.36,1);
+}
+
+/* DARK OVERLAY */
+.overlay{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.7));
+}
+
+/* SCENES */
+.scene{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+
+  opacity:0;
+  filter:blur(10px);
+  transform:scale(1.08);
+
+  transition:all 1.4s cubic-bezier(.22,.61,.36,1);
+}
+
+.scene.active{
+  opacity:1;
+  filter:blur(0);
+  transform:scale(1);
+}
+
+/* TEXT */
+h1{
+  font-size:2.6rem;
+  letter-spacing:1px;
+}
+
+.gold{color:#D4AF37;}
+
+.subtitle{
+  margin-top:12px;
+  font-size:1.1rem;
+  opacity:.85;
+  max-width:600px;
+}
+
+/* SERVICES */
+.services{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:20px;
+}
+
+.card{
+  padding:18px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.2);
+  backdrop-filter:blur(10px);
+
+  opacity:0;
+  transform:translateY(40px);
+}
+
+/* STAGGER ANIMATION */
+.scene.active .card:nth-child(1){animation:cardIn .6s .2s forwards;}
+.scene.active .card:nth-child(2){animation:cardIn .6s .4s forwards;}
+.scene.active .card:nth-child(3){animation:cardIn .6s .6s forwards;}
+.scene.active .card:nth-child(4){animation:cardIn .6s .8s forwards;}
+
+@keyframes cardIn{
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* SPLIT */
+.split{
+  display:flex;
+  gap:20px;
+}
+
+.box{
+  padding:20px;
+  border-radius:12px;
+  border:1px solid #D4AF37;
+  background:rgba(212,175,55,0.08);
+}
+
+/* CTA */
+.cta{
+  position:absolute;
+  bottom:30px;
+  font-size:.9rem;
+  opacity:.85;
+}
+
+/* PLAY BUTTON */
+.play-btn{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  padding:16px 32px;
+  background:#D4AF37;
+  border:none;
+  border-radius:40px;
+  color:#000;
+  font-size:1.1rem;
+  cursor:pointer;
+  z-index:10;
+  box-shadow:0 10px 30px rgba(212,175,55,.4);
+  transition:.3s;
+}
+.play-btn:hover{transform:translate(-50%,-50%) scale(1.05);}
+
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+
+<div class="video">
+
+<img src="mathcloud2.png" class="bg" id="bg">
+<div class="overlay"></div>
+
+<button class="play-btn" id="playBtn">▶ Play Video</button>
+
+<!-- SCENES -->
+
+<div class="scene" id="s1">
+  <h1>MATHCLOUD TECH SERVICES</h1>
+  <p class="subtitle">We Build. You Grow.</p>
+</div>
+
+<div class="scene" id="s2">
+  <h1>SMART SOLUTIONS</h1>
+  <h1 class="gold">STRONGER FUTURE</h1>
+</div>
+
+<div class="scene" id="s3">
+  <h1>Modern. Reliable. Scalable</h1>
+  <p class="subtitle">We design systems that simplify work, boost efficiency, and deliver measurable results.</p>
+</div>
+
+<div class="scene" id="s4">
+  <h1>Our Services</h1>
+  <div class="services">
+    <div class="card">Website Development</div>
+    <div class="card">Programming</div>
+    <div class="card">Mobile & Web Apps</div>
+    <div class="card">School Solutions</div>
+  </div>
+</div>
+
+<div class="scene" id="s5">
+  <div class="split">
+    <div class="box">
+      <h2>Schools</h2>
+      <p>E-learning, portals, and smart systems.</p>
+    </div>
+    <div class="box">
+      <h2>Workplaces</h2>
+      <p>Automation, dashboards, and workflow tools.</p>
+    </div>
+  </div>
+</div>
+
+<div class="scene" id="s6">
+  <h1>We don’t just write code</h1>
+  <h1 class="gold">We solve real problems</h1>
+</div>
+
+<div class="scene" id="s7">
+  <h1>Let’s Build Something Amazing</h1>
+  <div class="cta">
+    <p>09129225442</p>
+    <p>marshall12340@gmail.com</p>
+    <p>www.mathcloud.com</p>
+  </div>
+</div>
+
+</div>
+
+<audio id="music" src="song2.mp3"></audio>
+
+<script>
+const scenes = [
+  {id:'s1', duration:4000, voice:"Welcome to MathCloud Tech Services, where innovation meets real solutions."},
+  {id:'s2', duration:4000, voice:"We deliver smart solutions that create a stronger future."},
+  {id:'s3', duration:5000, voice:"Our systems are modern, reliable, and designed to improve productivity."},
+  {id:'s4', duration:6000, voice:"From websites to powerful applications, we build tools that perform."},
+  {id:'s5', duration:6000, voice:"We support schools and businesses with efficient digital systems."},
+  {id:'s6', duration:4000, voice:"We do not just write code. We solve problems."},
+  {id:'s7', duration:5000, voice:"Let us build something amazing together. Contact MathCloud today."}
+];
+
+let i = 0;
+
+function speak(text){
+  const s = new SpeechSynthesisUtterance(text);
+  s.rate = 0.95;
+  s.pitch = 1;
+  s.lang = "en-US";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(s);
+}
+
+function showScene(index){
+  document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));
+  document.getElementById(scenes[index].id).classList.add('active');
+
+  // cinematic zoom shift
+  document.getElementById('bg').style.transform = `scale(${1.15 + index*0.03}) translateY(${index*2}px)`;
+
+  speak(scenes[index].voice);
+}
+
+function playVideo(){
+  document.getElementById('playBtn').classList.add('hidden');
+
+  const music = document.getElementById('music');
+  music.volume = 0.15;
+  music.play();
+
+  function next(){
+    if(i >= scenes.length) return;
+    showScene(i);
+    setTimeout(()=>{
+      i++;
+      next();
+    }, scenes[i].duration);
+  }
+
+  next();
+}
+
+document.getElementById('playBtn').addEventListener('click', playVideo);
+</script>
+
+</body>
+</html>
